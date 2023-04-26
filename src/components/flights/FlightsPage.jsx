@@ -110,6 +110,9 @@ function FlightsPage() {
       <Head>
         <title>{title}</title>
       </Head>
+      <div>
+        <img src="/logo.png" className="w-60 cursor-pointer" onClick={() => router.push("/")} />
+      </div>
       <div className="flex-row justify-between grid grid-cols-4 gap-5 mt-16">
         <div className="flex items-center justify-center">
           <UIDropDown list={us_airport_list?.filter((air) => air?.iata != selectedDestination?.iata)} value={selectedOrigin} onChange={setSelectedOrigin} placeholder="Origin airport" label="Origin" />

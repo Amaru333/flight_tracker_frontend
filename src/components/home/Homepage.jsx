@@ -27,14 +27,16 @@ function Homepage() {
   return (
     <div>
       <Head>
-        <title>Home</title>
+        <title>Fly Frenzy</title>
       </Head>
       <div className="relative">
         <img src="/cover.png" className="w-full max-h-[550px] object-cover" />
         <div className="absolute top-0 left-0 w-full">
           <div className="max-w-screen-2xl m-auto px-8">
-            <div>Logo</div>
-            <div className="px-4 py-16 shadow-lg bg-white-900 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-100 rounded-lg mt-80">
+            <div>
+              <img src="/logo.png" className="w-60 cursor-pointer" />
+            </div>
+            <div className="px-4 py-16 shadow-lg bg-white-900 bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-100 rounded-lg mt-72">
               <div className="flex-row justify-between grid grid-cols-3 gap-5">
                 <div className="flex items-center justify-center">
                   <UIDropDown
