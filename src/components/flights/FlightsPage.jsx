@@ -105,7 +105,7 @@ function FlightsPage() {
   }
 
   return (
-    <div className="max-w-screen-2xl m-auto px-8">
+    <div className="max-w-screen-2xl m-auto px-2 sm:px-8">
       <ToastContainer />
       <Head>
         <title>{title}</title>
@@ -113,7 +113,7 @@ function FlightsPage() {
       <div>
         <img src="/logo.png" className="w-60 cursor-pointer" onClick={() => router.push("/")} />
       </div>
-      <div className="flex-row justify-between grid grid-cols-4 gap-5 mt-16">
+      <div className="flex-row justify-between grid grid-cols-1 sm:grid-cols-4 gap-5 mt-4 sm:mt-16">
         <div className="flex items-center justify-center">
           <UIDropDown list={us_airport_list?.filter((air) => air?.iata != selectedDestination?.iata)} value={selectedOrigin} onChange={setSelectedOrigin} placeholder="Origin airport" label="Origin" />
         </div>
@@ -140,7 +140,7 @@ function FlightsPage() {
       </div>
 
       <div>
-        <div className="flex flex-row justify-between my-16 mb-20">
+        <div className="flex flex-row justify-between my-16 mb-12 sm:mb-20">
           <div className="flex flex-col items-center">
             <p className="text-sm">
               {moment(flightData?.dept_time?.month, "MM").format("MMMM")}&nbsp;
@@ -181,7 +181,7 @@ function FlightsPage() {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-3 items-center">
+        <div className="sm:grid sm:grid-cols-3 items-center flex flex-col-reverse">
           <div className="flex flex-col items-center justify-self-center">
             <p className="text-sm mb-2">Operated by</p>
             <div className="flex flex-col justify-center">
@@ -191,7 +191,7 @@ function FlightsPage() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col my-16 sm:my-0">
             <p className="text-sm mb-4 font-medium">Get notified everytime the price gets cheaper until your journey date</p>
             {/* < */}
             <label for="email" className="text-sm">

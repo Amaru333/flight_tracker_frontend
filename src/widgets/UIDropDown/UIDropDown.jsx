@@ -13,7 +13,7 @@ function UIDropDown({ list, value, onChange, placeholder, label }) {
   return (
     <div className="w-full max-w-[382px]">
       <p className="text-gray-700 mb-2 text-sm">{label}</p>
-      <div className={`bg-white h-14 items-center justify-center flex flex-col rounded-t-xl ${!isListOpen && "rounded-b-xl"} shadow-lg relative px-4 mr-4`}>
+      <div className={`bg-white h-14 items-center justify-center flex flex-col rounded-t-xl ${!isListOpen && "rounded-b-xl"} shadow-lg relative px-4 mr-0 sm:mr-4`}>
         <div className="flex items-center justify-start w-full">
           {value && search && <p>({value?.iata})&nbsp;</p>}
           <input
