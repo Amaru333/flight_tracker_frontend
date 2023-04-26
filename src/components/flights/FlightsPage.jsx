@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import loader from "./loader.json";
 import Lottie from "react-lottie";
 import Head from "next/head";
+import { BASE_SERVER } from "@/const/urls";
 
 function FlightsPage() {
   const router = useRouter();
@@ -63,7 +64,7 @@ function FlightsPage() {
   const subscribeUser = () => {
     axios
       .get(
-        `http://localhost:5000/flight-price-subscribe?origin=${selectedOrigin?.iata}&destination=${selectedDestination?.iata}&date=${
+        `${BASE_SERVER}/flight-price-subscribe?origin=${selectedOrigin?.iata}&destination=${selectedDestination?.iata}&date=${
           moment(date).format("YYYY") + moment(date).format("MM") + moment(date).format("DD")
         }&phone_number=${phNo}&email=${email}`
       )
@@ -76,7 +77,7 @@ function FlightsPage() {
     setLoading(true);
     axios
       .get(
-        `http://localhost:5000/flight-price?origin=${us_airport_list.filter((airport) => airport?.iata == router.query.src)[0]?.iata}&destination=${
+        `${BASE_SERVER}/flight-price?origin=${us_airport_list.filter((airport) => airport?.iata == router.query.src)[0]?.iata}&destination=${
           us_airport_list.filter((airport) => airport?.iata == router.query.dest)[0]?.iata
         }&date=${router?.query?.date}`
       )
