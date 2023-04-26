@@ -5,6 +5,7 @@ import UIDropDown from "@/widgets/UIDropDown/UIDropDown";
 import us_airport_list from "../../const/us_airport_list.json";
 import { useRouter } from "next/router";
 import moment from "moment/moment";
+import Head from "next/head";
 
 function Homepage() {
   const router = useRouter();
@@ -25,6 +26,9 @@ function Homepage() {
   };
   return (
     <div>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div className="relative">
         <img src="/cover.png" className="w-full max-h-[550px] object-cover" />
         <div className="absolute top-0 left-0 w-full">

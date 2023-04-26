@@ -10,6 +10,10 @@ import UICalendar from "@/widgets/UICalendar/UICalendar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import loader from "./loader.json";
+import Lottie from "react-lottie";
+import Head from "next/head";
+
 function FlightsPage() {
   const router = useRouter();
   const notifyError = (message) =>
@@ -39,6 +43,7 @@ function FlightsPage() {
   const [phNo, setPhNo] = useState("");
   const [flightData, setFlightData] = useState();
   const [date, setDate] = useState(new Date());
+  const [loading, setLoading] = useState(true);
 
   const origin_data = us_airport_list.filter((airport) => airport?.iata == router.query.src)[0];
   const destination_data = us_airport_list.filter((airport) => airport?.iata == router.query.dest)[0];
@@ -46,7 +51,14 @@ function FlightsPage() {
   const [selectedOrigin, setSelectedOrigin] = useState(us_airport_list.filter((airport) => airport?.iata == router.query.src)[0]);
   const [selectedDestination, setSelectedDestination] = useState(us_airport_list.filter((airport) => airport?.iata == router.query.dest)[0]);
 
-  console.log(origin_data, destination_data, "ORIING DEST");
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loader,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const subscribeUser = () => {
     axios
@@ -61,32 +73,42 @@ function FlightsPage() {
 
   useEffect(() => {
     if (!router.isReady) return;
+    setLoading(true);
     axios
       .get(
         `http://localhost:5000/flight-price?origin=${us_airport_list.filter((airport) => airport?.iata == router.query.src)[0]?.iata}&destination=${
           us_airport_list.filter((airport) => airport?.iata == router.query.dest)[0]?.iata
         }&date=${router?.query?.date}`
       )
-      .then((res) => setFlightData(res.data));
+      .then((res) => {
+        setFlightData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        notifyError("Something went wrong. Please try again");
+        setLoading(false);
+      });
     setSelectedOrigin(us_airport_list.filter((airport) => airport?.iata == router.query.src)[0]);
     setSelectedDestination(us_airport_list.filter((airport) => airport?.iata == router.query.dest)[0]);
     setDate(moment(router.query.date, "YYYYMMDD").toDate());
   }, [router.isReady]);
 
-  const redirectToFlights = () => {
-    router.push({
-      pathname: "/flights",
-      query: {
-        src: selectedOrigin.iata,
-        dest: selectedDestination.iata,
-        date: moment(date).format("YYYY") + moment(date).format("MM") + moment(date).format("DD"),
-      },
-    });
-  };
+  const title = `${origin_data?.city} (${origin_data?.iata}) - ${destination_data?.city} (${destination_data?.iata})`;
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex flex-col justify-center items-center cursor-default">
+        <Lottie options={defaultOptions} width={700} height={290} />
+        <p class="animate-pulse">Finding the cheapest flight...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-screen-2xl m-auto px-8">
       <ToastContainer />
+      <Head>
+        <title>{title}</title>
+      </Head>
       <div className="flex-row justify-between grid grid-cols-4 gap-5 mt-16">
         <div className="flex items-center justify-center">
           <UIDropDown list={us_airport_list?.filter((air) => air?.iata != selectedDestination?.iata)} value={selectedOrigin} onChange={setSelectedOrigin} placeholder="Origin airport" label="Origin" />
@@ -104,9 +126,12 @@ function FlightsPage() {
           <UICalendar value={date} onChange={setDate} label="Travel Date" />
         </div>
         <div className="w-full items-center justify-center flex mt-8">
-          <button className="p-4 bg-orange-500 text-white hover:bg-orange-400 transition-colors" onClick={redirectToFlights}>
-            Search Cheapest Flight
-          </button>
+          <a
+            href={"/flights/?src=" + selectedOrigin.iata + "&dest=" + selectedDestination.iata + "&date=" + moment(date).format("YYYY") + moment(date).format("MM") + moment(date).format("DD")}
+            target="_blank"
+          >
+            <button className="p-4 bg-orange-500 text-white hover:bg-orange-400 transition-colors">Search Cheapest Flight</button>
+          </a>
         </div>
       </div>
 
